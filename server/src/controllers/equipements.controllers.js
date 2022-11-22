@@ -2,11 +2,21 @@ const equipementService = require("../services/equipement.service");
 
 const getAllEquipements = async (req, res) => {
   const allEquipements = await equipementService.getAllEquipements();
-  res.status(200).json(allEquipements);
+  return res.status(200).json(allEquipements);
 };
 
-const getEquipementById = (req, res) => {
-  res.send(`get equipement : ${req.params.equipementID}`);
+const getEquipementById = async (req, res) => {
+  if (req.params.equipementID) {
+    const response = await equipementService.getEquipementById(
+      req.params.equipementID
+    );
+    if (!response) {
+      return res
+        .status(400)
+        .json({ error: "No equipment found with the provided id." });
+    }
+    return res.status(200).json(response);
+  }
 };
 
 const addEquipement = async (req, res) => {
@@ -28,18 +38,18 @@ const addEquipement = async (req, res) => {
       description,
     };
     const response = await equipementService.addEquipement(newEquipement);
-    res.status(201).json(response);
+    return res.status(201).json(response);
   } else {
-    res.status(401).json({ error: "Missing equipement data." });
+    return res.status(401).json({ error: "Missing equipement data." });
   }
 };
 
 const updateEquipement = (req, res) => {
-  res.send(`Updated equipement : ${req.params.equipementID}`);
+  return res.send(`Updated equipement : ${req.params.equipementID}`);
 };
 
 const deleteEquipement = (req, res) => {
-  res.send(`Deleted equipement : ${req.params.equipementID}`);
+  return res.send(`Deleted equipement : ${req.params.equipementID}`);
 };
 
 module.exports = {

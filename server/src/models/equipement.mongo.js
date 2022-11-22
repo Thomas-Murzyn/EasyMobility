@@ -29,6 +29,10 @@ const equipementSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  id: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Equipement", equipementSchema);
