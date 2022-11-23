@@ -8,14 +8,44 @@ const getAllEquipements = async () => {
 };
 
 const addEquipement = async (newEquipement) => {
-  newEquipement.creationDate = new Date();
-  newEquipement.id = uuidv4();
-  const response = await equipement.create(newEquipement);
-  return response;
+  try {
+    newEquipement.creationDate = new Date();
+    newEquipement.id = uuidv4();
+    const response = await equipement.create(newEquipement);
+    return response;
+  } catch (error) {
+    return error;
+  }
 };
 
 const getEquipementById = async (id) => {
   const response = await isEquipmentExist(id);
+  return response;
+};
+
+const updateEquipement = async (data) => {
+  const { id, name, family, condition, price, brand, description } = data;
+  const equipementToUpdate = await isEquipmentExist(id);
+  if (equipementToUpdate) {
+    equipementToUpdate.name = name;
+    equipementToUpdate.family = family;
+    equipementToUpdate.condition = condition;
+    equipementToUpdate.price = price;
+    equipementToUpdate.brand = brand;
+    equipementToUpdate.description = description;
+
+    const response = await equipementToUpdate.save();
+    return response;
+  }
+  return equipementToUpdate;
+};
+
+const deleteEquipement = async (id) => {
+  const response = isEquipmentExist(id);
+  if (response) {
+    const equipementToDelete = await equipement.deleteOne({ id });
+    return response;
+  }
   return response;
 };
 
@@ -33,4 +63,6 @@ module.exports = {
   getAllEquipements,
   addEquipement,
   getEquipementById,
+  updateEquipement,
+  deleteEquipement,
 };
