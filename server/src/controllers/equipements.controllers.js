@@ -29,18 +29,18 @@ const addEquipement = async (req, res) => {
     const response = await equipementService.addEquipement(req.body);
     return res.status(201).json(response);
   }
-  return res.status(401).json({ error: "Missing equipement data." });
+  return res.status(400).json({ error: "Missing equipement data." });
 };
 
 const updateEquipement = async (req, res) => {
-  if (req.body.id) {
-    const response = await equipementService.updateEquipement(req.body);
-    if (response) {
-      return res.status(200).json(response);
-    }
-    return res.status(400).json({ error: "No equipement found." });
+  const response = await equipementService.updateEquipement(
+    req.body,
+    req.params.equipementID
+  );
+  if (response) {
+    return res.status(200).json({ message: "Equipment successfuly updated." });
   }
-  return res.status(401).json({ error: "Missing equipement data." });
+  return res.status(400).json({ error: "No equipement found." });
 };
 
 const deleteEquipement = async (req, res) => {

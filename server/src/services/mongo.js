@@ -8,7 +8,7 @@ mongoose.connection.once("open", () => {
 });
 
 mongoose.connection.on("error", (error) => {
-  console.log(error);
+  console.log("Disconnected to Mongo DB");
 });
 
 async function mongoConnect() {

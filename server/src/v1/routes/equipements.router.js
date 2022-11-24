@@ -19,7 +19,7 @@ equipementsRouter.get("/:equipementID", getEquipementById);
 equipementsRouter.post("/", addEquipement);
 
 // update an existing equipement
-equipementsRouter.put("/", updateEquipement);
+equipementsRouter.put("/:equipementID", updateEquipement);
 
 // delete an equipement
 equipementsRouter.delete("/:equipementID", deleteEquipement);

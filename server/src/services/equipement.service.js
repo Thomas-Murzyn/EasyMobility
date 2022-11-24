@@ -23,8 +23,8 @@ const getEquipementById = async (id) => {
   return response;
 };
 
-const updateEquipement = async (data) => {
-  const { id, name, family, condition, price, brand, description } = data;
+const updateEquipement = async (data, id) => {
+  const { name, family, condition, price, brand, description } = data;
   const equipementToUpdate = await isEquipmentExist(id);
   if (equipementToUpdate) {
     equipementToUpdate.name = name;
