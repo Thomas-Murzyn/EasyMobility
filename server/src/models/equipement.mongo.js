@@ -33,6 +33,10 @@ const equipementSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 module.exports = mongoose.model("Equipement", equipementSchema);

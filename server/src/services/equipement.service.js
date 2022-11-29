@@ -1,16 +1,22 @@
-const mongoose = require("mongoose");
+const User = require("../models/user.mongo");
 const equipement = require("../models/equipement.mongo");
 const { v4: uuidv4 } = require("uuid");
 
 const getAllEquipements = async () => {
-  const allEquipements = await equipement.find({});
+  const allEquipements = await equipement
+    .find({})
+    .populate("owner", "firstName lastName adress age");
+
   return allEquipements;
 };
 
-const addEquipement = async (newEquipement) => {
+const addEquipement = async (newEquipement, user) => {
   try {
+    const userFound = await User.findOne({ email: user.email });
+
     newEquipement.creationDate = new Date();
     newEquipement.id = uuidv4();
+    newEquipement.owner = userFound;
     const response = await equipement.create(newEquipement);
     return response;
   } catch (error) {
@@ -52,7 +58,9 @@ const deleteEquipement = async (id) => {
 // Helper functions
 const isEquipmentExist = async (id) => {
   try {
-    const equipmentFinded = await equipement.findOne({ id: id });
+    const equipmentFinded = await equipement
+      .findOne({ id: id })
+      .populate("owner", "firstName lastName adress age");
     return equipmentFinded;
   } catch (error) {
     return error;

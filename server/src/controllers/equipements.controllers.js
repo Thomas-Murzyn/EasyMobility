@@ -26,8 +26,12 @@ const addEquipement = async (req, res) => {
     req.body.brand &&
     req.body.description
   ) {
-    const response = await equipementService.addEquipement(req.body);
-    return res.status(201).json(response);
+    const response = await equipementService.addEquipement(req.body, req.user);
+    if (response) {
+      return res.status(201).json({ message: "Equipment created." });
+    }
+
+    return res.status(400).json(response);
   }
   return res.status(400).json({ error: "Missing equipement data." });
 };
