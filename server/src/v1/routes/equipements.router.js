@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuthenticated = require("../../middlewares/isAuthenticated");
 
 const equipementsRouter = express.Router();
 const {
@@ -16,12 +17,12 @@ equipementsRouter.get("/", getAllEquipements);
 equipementsRouter.get("/:equipementID", getEquipementById);
 
 // add a new equipement
-equipementsRouter.post("/", addEquipement);
+equipementsRouter.post("/", isAuthenticated, addEquipement);
 
 // update an existing equipement
-equipementsRouter.put("/:equipementID", updateEquipement);
+equipementsRouter.put("/:equipementID", isAuthenticated, updateEquipement);
 
 // delete an equipement
-equipementsRouter.delete("/:equipementID", deleteEquipement);
+equipementsRouter.delete("/:equipementID", isAuthenticated, deleteEquipement);
 
 module.exports = equipementsRouter;
